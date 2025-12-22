@@ -7,6 +7,7 @@ import zeptoLogo from '@/logos/zepto.png';
 import swiggyLogo from '@/logos/swiggy.png';
 import bigbasketLogo from '@/logos/bigbasket.png';
 import flipkartLogo from '@/logos/flipkart.png';
+import blinkitLogo from '@/logos/blinkit.png';
 
 interface Company {
   id: string;
@@ -22,7 +23,7 @@ const companies: Company[] = [
   { id: 'swiggy-instamart', name: 'Swiggy Instamart', color: 'hsl(25 95% 53%)', lightColor: 'hsl(25 90% 95%)', logo: swiggyLogo },
   { id: 'bigbasket', name: 'BigBasket', color: 'hsl(145 70% 40%)', lightColor: 'hsl(145 60% 95%)', logo: bigbasketLogo },
   { id: 'flipkart-minutes', name: 'Flipkart Minutes', color: 'hsl(45 95% 50%)', lightColor: 'hsl(45 90% 95%)', logo: flipkartLogo },
-  { id: 'blinkit', name: 'Blinkit', color: 'hsl(50 95% 50%)', lightColor: 'hsl(50 90% 95%)', icon: '🚀' },
+  { id: 'blinkit', name: 'Blinkit', color: 'hsl(50 95% 50%)', lightColor: 'hsl(50 90% 95%)', logo: blinkitLogo },
 ];
 
 interface CompanySelectorProps {
