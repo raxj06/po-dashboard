@@ -23,9 +23,15 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
+      // Get file extension/type
+      const fileExtension = selectedFile.name.split('.').pop()?.toLowerCase() || '';
+      const fileType = selectedFile.type || `application/${fileExtension}`;
+
       const formData = new FormData();
       formData.append('file', selectedFile);
-      formData.append('company', selectedCompany);
+      formData.append('platform', selectedCompany);
+      formData.append('fileType', fileType);
+      formData.append('fileExtension', fileExtension);
       formData.append('uploadedAt', new Date().toISOString());
 
       const response = await fetch(WEBHOOK_URL, {
