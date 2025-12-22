@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const ACCEPTED_FILE_TYPES = ['.csv', '.xlsx', '.xls', '.pdf', '.jpg', '.jpeg'];
 const MAX_FILE_SIZE_MB = 10;
-const WEBHOOK_URL = 'YOUR_WEBHOOK_URL_HERE'; // Replace with your n8n webhook URL
+const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL;
 
 const Index = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -153,7 +153,7 @@ const Index = () => {
                 </>
               )}
             </Button>
-            
+
             {!canSubmit && !isSubmitting && (
               <p className="text-sm text-muted-foreground mt-3">
                 {!selectedFile && !selectedCompany && 'Please upload a file and select a company'}
