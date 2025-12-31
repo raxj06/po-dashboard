@@ -2,6 +2,9 @@
 
 interface ImportMetaEnv {
     readonly VITE_WEBHOOK_URL: string;
+    readonly VITE_GRN_WEBHOOK_URL: string;
+    readonly VITE_SUPABASE_URL: string;
+    readonly VITE_SUPABASE_ANON_KEY: string;
 }
 
 interface ImportMeta {
