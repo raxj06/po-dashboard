@@ -13,6 +13,7 @@ export interface HistoryItem {
 
 export interface WebhookResponse {
     success: boolean;
+    error?: boolean;
     rowCount?: number;
     message?: string;
 }

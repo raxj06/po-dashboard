@@ -59,6 +59,23 @@ const Index = () => {
     };
 
     fetchHistory();
+
+    // Periodic cleanup: Mark stuck "processing" entries as "failed" after 2 minutes
+    const cleanupInterval = setInterval(async () => {
+      const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000).toISOString();
+
+      // Update stuck entries in Supabase
+      await supabase
+        .from('po_history')
+        .update({ status: 'failed' })
+        .eq('status', 'processing')
+        .lt('uploaded_at', twoMinutesAgo);
+
+      // Refresh history to get updated statuses
+      fetchHistory();
+    }, 30000); // Check every 30 seconds
+
+    return () => clearInterval(cleanupInterval);
   }, []);
 
   const canSubmit = selectedFile && selectedCompany && !isSubmitting;
@@ -140,6 +157,11 @@ const Index = () => {
         webhookData = await response.json();
       } catch (e) {
         // Response might not be JSON, that's okay
+      }
+
+      // Check if webhook reports an error (n8n workflow failed)
+      if (webhookData.success === false || webhookData.error) {
+        throw new Error(webhookData.message || 'Workflow processing failed');
       }
 
       // n8n will update Supabase directly, just update local state for immediate feedback
