@@ -139,7 +139,14 @@ const Index = () => {
       const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 seconds
 
       const webhookUrl = activeTab === 'po' ? PO_WEBHOOK_URL : GRN_WEBHOOK_URL;
-      const response = await fetch(webhookUrl, {
+
+      // Use proxy in production (HTTPS) to avoid mixed content issues
+      const isProduction = window.location.protocol === 'https:';
+      const fetchUrl = isProduction
+        ? `/api/webhook?target=${encodeURIComponent(webhookUrl)}`
+        : webhookUrl;
+
+      const response = await fetch(fetchUrl, {
         method: 'POST',
         body: formData,
         signal: controller.signal,
