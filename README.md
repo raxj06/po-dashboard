@@ -1,73 +1,90 @@
-# Welcome to your Lovable project
+# PO Dashboard - Quick Commerce Upload System
 
-## Project info
+A modern web application for uploading Purchase Orders (PO) and Goods Received Notes (GRN) to quick commerce platforms. The system processes documents using AI-powered OCR via n8n workflows and stores upload history in Supabase.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Business Problem Solved
 
-## How can I edit this code?
+Manual PO/GRN data entry for quick commerce partners (Zepto, Swiggy Instamart, BigBasket, Flipkart Minutes, Blinkit) is time-consuming and error-prone. This dashboard automates the extraction and processing of PO/GRN documents, reducing manual work and improving accuracy.
 
-There are several ways of editing your application.
+## Key Features
 
-**Use Lovable**
+- **Dual Mode Upload**: Support for both Purchase Orders (PO) and Goods Received Notes (GRN)
+- **Multi-Platform Support**: 5 quick commerce platforms - Zepto, Swiggy Instamart, BigBasket, Flipkart Minutes, Blinkit
+- **AI-Powered Processing**: Documents processed via n8n workflows using Gemini AI for OCR
+- **Real-time Status Tracking**: Shared upload history with processing/success/failed states
+- **Auto-Cleanup**: Stuck uploads automatically marked as failed after 2 minutes
+- **File Support**: CSV, XLSX, XLS, PDF, JPG, JPEG (max 10MB)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18 + TypeScript + Vite |
+| Styling | Tailwind CSS + shadcn/ui |
+| Database | Supabase (PostgreSQL) |
+| Backend | Vercel Serverless Functions |
+| Automation | n8n (self-hosted) |
+| AI/OCR | Google Gemini AI |
+| Deployment | Vercel |
 
-**Use your preferred IDE**
+## Architecture Overview
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```
+┌──────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                  │     │                 │     │                 │
+│  React Frontend  │────▶│  Vercel Proxy   │────▶│   n8n Webhook   │
+│                  │     │  (HTTPS→HTTP)   │     │                 │
+└────────┬─────────┘     └─────────────────┘     └────────┬────────┘
+         │                                                │
+         │                                                ▼
+         │                                       ┌─────────────────┐
+         │                                       │   Gemini AI     │
+         │                                       │   (OCR/Parse)   │
+         └───────────────────┐                   └────────┬────────┘
+                             │                            │
+                             ▼                            ▼
+                    ┌─────────────────┐         ┌─────────────────┐
+                    │                 │         │                 │
+                    │    Supabase     │◀────────│  Google Sheets  │
+                    │   (History DB)  │         │   (Output)      │
+                    └─────────────────┘         └─────────────────┘
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Environments
 
-Follow these steps:
+| Environment | URL | Purpose |
+|------------|-----|---------|
+| Production | https://po-dashboard-pi.vercel.app | Live system |
+| Local | http://localhost:8080 | Development |
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Documentation Guide
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+| Document | Audience | Purpose |
+|----------|----------|---------|
+| [setup.md](docs/setup.md) | Developers | Local and production setup |
+| [architecture.md](docs/architecture.md) | Developers | System design and data flow |
+| [workflows.md](docs/workflows.md) | Developers/Ops | Business and technical workflows |
+| [api.md](docs/api.md) | Developers | API reference and webhooks |
+| [deployment.md](docs/deployment.md) | DevOps | Deployment and CI/CD |
+| [troubleshooting.md](docs/troubleshooting.md) | Developers/Ops | Common issues and fixes |
+| [faq.md](docs/faq.md) | All | Frequently asked questions |
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Project Owner
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+**Team**: Joyspoon Tech  
+**Repository**: PO-Dashboard/po-sender-pro
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Set environment variables (copy .env.example to .env)
+cp .env.example .env
+
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+See [docs/setup.md](docs/setup.md) for detailed instructions.
